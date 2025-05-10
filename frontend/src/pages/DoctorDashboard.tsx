@@ -15,10 +15,8 @@ import {
   Col,
   Input,
   Collapse,
-  Descriptions,
   Empty,
   Badge,
-  Tabs,
   Avatar,
   Grid,
   DatePicker
@@ -28,15 +26,10 @@ import {
   UserOutlined,
   WarningOutlined,
   CheckCircleOutlined,
-  SyncOutlined,
   DashboardOutlined,
   ReloadOutlined,
-  HeartOutlined,
   ScheduleOutlined,
   MedicineBoxFilled,
-  FileTextOutlined,
-  UnorderedListOutlined,
-  InfoCircleOutlined,
   CalendarOutlined,
   ArrowRightOutlined
 } from '@ant-design/icons';
@@ -48,16 +41,15 @@ import { getRiskLevel } from "../utils/riskLevelUtils";
 import { Assessment } from "../types/assessment";
 
 const { Header, Content } = Layout;
-const { Title, Text, Paragraph } = Typography;
+const { Title, Text } = Typography;
 const { Search } = Input;
 const { Panel } = Collapse;
-const { TabPane } = Tabs;
 const { useBreakpoint } = Grid;
 
 const DoctorDashboard: React.FC = () => {
   const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [loading, setLoading] = useState(false);
-  const [riskLoading, setRiskLoading] = useState<{ [key: number]: boolean }>({});
+  //const [riskLoading, setRiskLoading] = useState<{ [key: number]: boolean }>({});
   const [searchTerm, setSearchTerm] = useState("");
   const [filterDate, setFilterDate] = useState<moment.Moment | null>(null);
   const navigate = useNavigate();
@@ -80,36 +72,36 @@ const DoctorDashboard: React.FC = () => {
     }
   };
 
-  const runRiskAssessment = async (id: number, event: React.MouseEvent) => {
-    // Prevent collapse panel from toggling when clicking the button
-    event.stopPropagation();
+  // const runRiskAssessment = async (id: number, event: React.MouseEvent) => {
+  //   // Prevent collapse panel from toggling when clicking the button
+  //   event.stopPropagation();
     
-    setRiskLoading((prev) => ({ ...prev, [id]: true }));
-    try {
-      const response = await api.get(`/risk-assessments/${id}/`);
-      const newRiskScore = response.data.risk_score;
-      setAssessments((prev) =>
-        prev.map((assessment) =>
-          assessment.id === id ? { ...assessment, risk_score: newRiskScore } : assessment
-        )
-      );
+  //   setRiskLoading((prev) => ({ ...prev, [id]: true }));
+  //   try {
+  //     const response = await api.get(`/risk-assessments/${id}/`);
+  //     const newRiskScore = response.data.risk_score;
+  //     setAssessments((prev) =>
+  //       prev.map((assessment) =>
+  //         assessment.id === id ? { ...assessment, risk_score: newRiskScore } : assessment
+  //       )
+  //     );
       
-      notification.success({
-        message: "Risk Assessment Complete",
-        description: `Risk score for patient updated: ${newRiskScore}`,
-        placement: "topRight"
-      });
-    } catch (error) {
-      console.error("Error running risk assessment:", error);
-      notification.error({
-        message: "Error",
-        description: "Failed to run risk assessment. Please try again.",
-        placement: "topRight"
-      });
-    } finally {
-      setRiskLoading((prev) => ({ ...prev, [id]: false }));
-    }
-  };
+  //     notification.success({
+  //       message: "Risk Assessment Complete",
+  //       description: `Risk score for patient updated: ${newRiskScore}`,
+  //       placement: "topRight"
+  //     });
+  //   } catch (error) {
+  //     console.error("Error running risk assessment:", error);
+  //     notification.error({
+  //       message: "Error",
+  //       description: "Failed to run risk assessment. Please try again.",
+  //       placement: "topRight"
+  //     });
+  //   } finally {
+  //     setRiskLoading((prev) => ({ ...prev, [id]: false }));
+  //   }
+  // };
 
   // Navigate to detail view page
   const navigateToDetailView = (id: number, event: React.MouseEvent) => {
@@ -123,9 +115,9 @@ const DoctorDashboard: React.FC = () => {
   }, []);
 
   // Calculate age from date_of_birth
-  const calculateAge = (dateOfBirth: string) => {
-    return moment().diff(moment(dateOfBirth), 'years');
-  };
+  // const calculateAge = (dateOfBirth: string) => {
+  //   return moment().diff(moment(dateOfBirth), 'years');
+  // };
 
   // Filter assessments by search term and date
   const filteredAssessments = assessments.filter(assessment => {
@@ -166,16 +158,16 @@ const DoctorDashboard: React.FC = () => {
   };
 
   // Format array for display
-  const formatArray = (arr: string[] | undefined) => {
-    if (!arr || arr.length === 0) return "None";
-    return arr.join(", ");
-  };
+  // const formatArray = (arr: string[] | undefined) => {
+  //   if (!arr || arr.length === 0) return "None";
+  //   return arr.join(", ");
+  // };
 
   // FormatValue for description items
-  const formatValue = (value: string | null | undefined) => {
-    if (!value || value.trim() === "") return "None";
-    return value;
-  };
+  // const formatValue = (value: string | null | undefined) => {
+  //   if (!value || value.trim() === "") return "None";
+  //   return value;
+  // };
 
   return (
     <ConfigProvider>
@@ -304,7 +296,7 @@ const DoctorDashboard: React.FC = () => {
             ) : (
               <Collapse accordion>
                 {filteredAssessments.map((assessment) => {
-                  const age = assessment.date_of_birth ? calculateAge(assessment.date_of_birth) : 'N/A';
+                  // const age = assessment.date_of_birth ? calculateAge(assessment.date_of_birth) : 'N/A';
                   const { color } = getRiskLevel(assessment.risk_score);
                   
                   return (

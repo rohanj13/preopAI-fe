@@ -98,7 +98,7 @@ const AssessmentDetails: React.FC<AssessmentDetailsProps> = ({ visible, assessme
         {/* Dental */}
         <TabPane tab={<span><UnorderedListOutlined /> Dental</span>} key="5">
           <Card title="Dental Descriptions" size="small">
-            <Paragraph>{assessment.dental_description.join(", ") || "None"}</Paragraph>
+            <Paragraph>{assessment.dental_descriptions.join(", ") || "None"}</Paragraph>
           </Card>
         </TabPane>
       </Tabs>
